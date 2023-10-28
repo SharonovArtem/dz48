@@ -1,0 +1,165 @@
+using System;
+using System.Collections.Generic;
+
+namespace ConsoleApp16
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            ZooPark zooPark = new ZooPark();
+
+            zooPark.Work();
+        }
+    }
+
+    class Aviary
+    {
+        public Aviary(int countOfAnimals)
+        {
+            CountOfAnimals = countOfAnimals;
+        }
+
+        private List<Animal> _animals = new List<Animal>();
+        public int CountOfAnimals { get; private set; }
+
+        public void CreateAnimals(string name, string voice, int count)
+        {
+            List<string> sex = new List<string>();
+            int femaleNumber = 0;
+            int maleNumber = 1;
+            int maximalSexNumber = 2;
+            int sexNumber;
+            sex.Add("Самка");
+            sex.Add("Самец");
+
+            for (int i = 0; i < count; i++)
+            {
+                sexNumber = userUtils.GenerateRandomNumber(femaleNumber, maximalSexNumber);
+
+                if (sexNumber == femaleNumber)
+                {
+                    Animal animal = new Animal(name, sex[femaleNumber], voice);
+
+                    _animals.Add(animal);
+                }
+                else if (sexNumber == maleNumber)
+                {
+                    Animal animal = new Animal(name, sex[maleNumber], voice);
+
+                    _animals.Add(animal);
+                }
+            }
+        }
+
+        public void ShowInfo()
+        {
+            for (int i = 0; i < _animals.Count; i++)
+            {
+                Console.WriteLine("Пол животного - " + _animals[i].Sex);
+                Console.WriteLine("Название животного - " + _animals[i].Name);
+                Console.WriteLine("Какой звук издаёт ребёнок - " + _animals[i].Voice);
+            }
+        }
+    }
+
+    class Animal
+    {
+        public Animal(string name, string sex, string voice)
+        {
+            Name = name;
+            Sex = sex;
+            Voice = voice;
+        }
+
+        public string Sex { get; private set; }
+        public string Voice { get; private set; }
+        public string Name { get; private set; }
+    }
+
+    class ZooPark
+    {
+        private List<Aviary> _aviaries = new List<Aviary>();
+
+        public void CreateAviary(string name, string voice)
+        {
+            int minimalAnimalsNumber = 5;
+            int maximalAnimalsNumber = 15;
+            int numberOfAnimals = userUtils.GenerateRandomNumber(minimalAnimalsNumber, maximalAnimalsNumber);
+            Aviary aviary = new Aviary(numberOfAnimals);
+
+            aviary.CreateAnimals(name, voice, numberOfAnimals);
+
+            _aviaries.Add(aviary);
+        }
+
+        public void Work()
+        {
+            bool isWorking = true;
+            int userInput;
+            int firstAviary = 0;
+            int secondAviary = 1;
+            int thirdAviary = 2;
+            int fourthAviary = 3;
+            int exitCommand = 4;
+
+            CreateAviary("Корова", "Му-му");
+            CreateAviary("Кошка", "Мяу-мяу");
+            CreateAviary("Собака", "гав-гав");
+            CreateAviary("Курица", "ко-ко-ко");
+
+            while (isWorking)
+            {
+                Console.WriteLine("К какому вольеру вы хотите подойти?");
+                Console.WriteLine("Первый вольер - " + firstAviary);
+                Console.WriteLine("Второй вольер - " + secondAviary);
+                Console.WriteLine("Третий вольер - " + thirdAviary);
+                Console.WriteLine("Четвёртый вольер - " + fourthAviary);
+                Console.WriteLine("Выйти - " + exitCommand);
+
+                userInput = Convert.ToInt32(Console.ReadLine());
+
+                if (userInput == firstAviary)
+                {
+                    _aviaries[firstAviary].ShowInfo();
+                }
+                else if (userInput == secondAviary)
+                {
+                    _aviaries[secondAviary].ShowInfo();
+                }
+                else if (userInput == thirdAviary)
+                {
+                    _aviaries[thirdAviary].ShowInfo();
+                }
+                else if (userInput == fourthAviary)
+                {
+                    _aviaries[fourthAviary].ShowInfo();
+                }
+                else if (userInput == exitCommand)
+                {
+                    Console.WriteLine("Ждём вас в нашем зоопарке снова!");
+
+                    isWorking = false;
+                }
+                else
+                {
+                    Console.WriteLine("Неизвестная команда");
+                }
+            }
+        }
+    }
+
+    class userUtils
+    {
+        public static Random random = new Random();
+
+        public static int GenerateRandomNumber(int minimalNumber, int maximalNumber)
+        {
+            int number;
+
+            number = random.Next(minimalNumber, maximalNumber);
+
+            return number;
+        }
+    }
+}
